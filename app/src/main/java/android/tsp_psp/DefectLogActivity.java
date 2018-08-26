@@ -11,6 +11,5 @@ public class DefectLogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_defect_log);
 
 
-
     }
 }
