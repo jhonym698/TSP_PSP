@@ -37,6 +37,11 @@ public class FuncionesActivity extends AppCompatActivity {
                 Intent intent=new Intent(this, TimeLogActivity.class);
                 startActivity(intent);
                 break;
+
+            case R.id.btn2:
+                Intent intent2=new Intent(this, DefectLogActivity.class);
+                startActivity(intent2);
+                break;
         }
     }
 }

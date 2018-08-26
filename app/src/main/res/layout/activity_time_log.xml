@@ -150,6 +150,7 @@
             <EditText
                 android:id="@+id/txtDescripcion"
                 android:layout_width="match_parent"
+                android:inputType="textMultiLine"
                 android:layout_height="wrap_content"
                 android:hint="Escriba la descripcion de la fase o motivo del tiempo de interrupción" />
 
