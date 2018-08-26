@@ -1,11 +1,13 @@
 package android.tsp_psp;
 
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.tsp_psp.Utilidades.Conexion;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.ParseException;
@@ -26,6 +29,7 @@ public class TimeLogActivity extends AppCompatActivity {
     Spinner spinner;
 
     View view;
+    Conexion conexion=new Conexion(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,10 +125,43 @@ public class TimeLogActivity extends AppCompatActivity {
         ventana.setView(view);
         ventana.create();
 
+        TextView lblspinner=view.findViewById(R.id.lblSpinnerInfo);
+        final TextView lblfechaIncio=view.findViewById(R.id.lblFechaInicioInfo);
+        final TextView lblInterrupcion=view.findViewById(R.id.lblInterrupcionInfo);
+        final TextView lblfechaFin=view.findViewById(R.id.lblFechaFinInfo);
+        final TextView lblTotal=view.findViewById(R.id.lblTotalInfo);
+        final TextView lblComentario=view.findViewById(R.id.lblComentarioInfo);
+
+        lblspinner.setText(spinner.getSelectedItem().toString());
+        lblfechaIncio.setText(txtFechaStart.getText().toString());
+        lblfechaFin.setText(txtFechaStop.getText().toString());
+        lblInterrupcion.setText(txtMinutos.getText().toString());
+        lblTotal.setText(txtTotal.getText().toString());
+        lblComentario.setText(txtDescripcion.getText().toString());
+
         ventana.setPositiveButton("guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                String phase=spinner.getSelectedItem().toString();
+                String start=lblfechaIncio.getText().toString();
+                String interruption=lblInterrupcion.getText().toString();
+                String stop=lblfechaFin.getText().toString();
+                String delta=lblTotal.getText().toString();
+                String comments=lblComentario.getText().toString();
 
+                try{
+                    SQLiteDatabase db=conexion.getWritableDatabase();
+                    String cadenaSQL="insert into timelog (pashe,start,interruption, stop, delta, comments)" +
+                            " values ('"+phase+"','"+start+"','"+interruption+"','"+stop+"','"+delta+"','"+comments+"')";
+
+                    db.execSQL(cadenaSQL);
+
+                    Toast.makeText(TimeLogActivity.this, "Datos guardados", Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    Toast.makeText(TimeLogActivity.this
+                            , "Por favor asegurese de que los datos esten escritos correctamente",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         }).setNegativeButton("Atras", new DialogInterface.OnClickListener() {
             @Override

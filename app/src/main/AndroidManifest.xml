@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".TimeLogActivity" />
-        <activity android:name=".FuncionesActivity"></activity>
+        <activity android:name=".FuncionesActivity" />
+        <activity android:name=".DefectLogActivity"></activity>
     </application>
 
 </manifest>
