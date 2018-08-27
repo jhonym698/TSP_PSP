@@ -49,28 +49,33 @@ public class TimeLogActivity extends AppCompatActivity {
         spinner.setAdapter(new  ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_dropdown_item, opciones));
 
-
-
         txtFechaStop.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 calcularTotal(view);
             }
         });
-
         txtFechaStart.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 calcularTotal(view);
             }
         });
-
         txtMinutos.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 calcularTotal(view);
             }
         });
+    }
+
+    private void limpiarFormulario() {
+        txtFechaStart.setText("");
+        txtFechaStop.setText("");
+        txtMinutos.setText("");
+        txtTotal.setText("");
+        txtDescripcion.setText("");
+
     }
 
 
@@ -149,6 +154,8 @@ public class TimeLogActivity extends AppCompatActivity {
                 String delta=lblTotal.getText().toString();
                 String comments=lblComentario.getText().toString();
 
+                limpiarFormulario();
+
                 try{
                     SQLiteDatabase db=conexion.getWritableDatabase();
                     String cadenaSQL="insert into timelog (pashe,start,interruption, stop, delta, comments)" +
@@ -173,6 +180,8 @@ public class TimeLogActivity extends AppCompatActivity {
         return ventana.show();
 
     }
+
+
 
 
     private void calcularTotal(View view) {
